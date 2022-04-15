@@ -65,12 +65,20 @@ class Product(SeoModel):
 class ManufacturerProduct(SeoModel):
     name = models.CharField('Название', max_length=77, blank=True)
     description = models.CharField('Описание', max_length=500, blank=True)
-    img_logo = models.ImageField('Логотип', upload_to='manufacturer')
+    img_logo = models.ImageField('Логотип', upload_to='manufacturer', blank=True)
     products = models.ForeignKey(Product, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Производитель'
+        verbose_name_plural = 'Производители'
+
 
 
 class ProductFeature(models.Model):
-    code_product = models.IntegerField('', max_length=6, blank=True)
+    code_product = models.IntegerField('Код товара', max_length=6, blank=True)
     color = models.CharField('Цвет', max_length=50, blank=True)
     img_color = models.ImageField('Цвет фото', upload_to='img_color', blank=True)
     heft = models.FloatField('Вес', max_length=5, blank=True)
