@@ -48,6 +48,7 @@ class Product(SeoModel):
     description = models.TextField('Описание', blank=True)
     short_description = models.CharField('Краткое описание', max_length=70, blank=True)
     price = models.DecimalField('Цена', max_digits=8, decimal_places=2, default=0)
+    sky = models.CharField('Артикул', max_length=6)
     quantity = models.PositiveIntegerField('Количество', default=0)
     is_published = models.BooleanField('Опубликовано', default=True)
     create_at = models.DateField(auto_now_add=True)
@@ -61,9 +62,24 @@ class Product(SeoModel):
         verbose_name_plural = 'Продукты'
 
 
+class ManufacturerProduct(SeoModel):
+    name = models.CharField('Название', max_length=77, blank=True)
+    description = models.CharField('Описание', max_length=500, blank=True)
+    img_logo = models.ImageField('Логотип', upload_to='manufacturer')
+    products = models.ForeignKey(Product, on_delete=models.PROTECT)
+
+
 class ProductFeature(models.Model):
+    code_product = models.IntegerField('', max_length=6, blank=True)
     color = models.CharField('Цвет', max_length=50, blank=True)
     img_color = models.ImageField('Цвет фото', upload_to='img_color', blank=True)
     heft = models.FloatField('Вес', max_length=5, blank=True)
     length = models.PositiveIntegerField('Длинна', blank=True)
     products = models.ManyToManyField(Product)
+
+    def __str__(self):
+        return 'Свойство приманки'
+
+    class Meta:
+        verbose_name = 'Свойство'
+        verbose_name_plural = 'Свойства'
