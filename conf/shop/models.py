@@ -65,5 +65,5 @@ class ProductFeature(models.Model):
     color = models.CharField('Цвет', max_length=50, blank=True)
     img_color = models.ImageField('Цвет фото', upload_to='img_color', blank=True)
     heft = models.FloatField('Вес', max_length=5, blank=True)
-    length = models.PositiveIntegerField('Длинна', max_length=5, blank=True)
+    length = models.PositiveIntegerField('Длинна', blank=True)
     products = models.ManyToManyField(Product)
