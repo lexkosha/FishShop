@@ -76,13 +76,19 @@ class ManufacturerProduct(SeoModel):
         verbose_name_plural = 'Производители'
 
 
-
 class ProductFeature(models.Model):
     code_product = models.IntegerField('Код товара', max_length=6, blank=True)
     color = models.CharField('Цвет', max_length=50, blank=True)
     img_color = models.ImageField('Цвет фото', upload_to='img_color', blank=True)
-    heft = models.FloatField('Вес', max_length=5, blank=True)
+    heft = models.FloatField('Вес', max_length=6, blank=True)
     length = models.PositiveIntegerField('Длинна', blank=True)
+    size = models.CharField('Размер', max_length=2, blank=True)
+    type_product = models.CharField('Тип', max_length=20, blank=True)
+    material = models.CharField('Материал', max_length=20, blank=True)
+    breaking_load = models.FloatField('Разрывная нагрузка', max_length=4, blank=True)
+    number = models.IntegerField('Номер', max_length=4, blank=True)
+    packege = models.IntegerField('Упаковка', max_length=5, blank=True)
+    type_fishing = models.CharField('Вид ловли', max_length=30, blank=True)
     products = models.ManyToManyField(Product)
 
     def __str__(self):
@@ -91,3 +97,10 @@ class ProductFeature(models.Model):
     class Meta:
         verbose_name = 'Свойство'
         verbose_name_plural = 'Свойства'
+
+    def save(self, *args, **kwargs):
+        self.breaking_load = round(self.breaking_load, 2)
+        self.heft = round(self.heft, 2)
+        super(ProductFeature, self).save(*args, **kwargs)
+
+
